@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Origin-Flow</string>
+    <string name="accessibility_service_description">Origin-Flow uses this service to listen for text selection and long-press gestures across applications to spawn radial context actions and multi-app workspaces.</string>
+</resources>

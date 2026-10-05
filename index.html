@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Origin-Flow | Spatial Multi-App Context Engine Demo</title>
+  <meta name="description" content="Interactive visual preview of Origin-Flow: Android spatial overlay engine with radial Intent-Wheel and floating multi-app workspace stack.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Ambient background glow layers -->
+  <div class="ambient-glow glow-cyan"></div>
+  <div class="ambient-glow glow-violet"></div>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+          <polyline points="2 17 12 22 22 17"></polyline>
+          <polyline points="2 12 12 17 22 12"></polyline>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-title">ORIGIN-FLOW</div>
+        <div class="brand-sub">Spatial Multi-App Context Engine</div>
+      </div>
+    </div>
+
+    <!-- Quick Tour Controls -->
+    <div class="header-actions">
+      <span class="live-pill"><span class="pulse-dot"></span> LIVE SIMULATOR</span>
+      <button id="btn-quick-tour" class="btn btn-secondary">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+        Auto-Demo Walkthrough
+      </button>
+      <button id="btn-reset" class="btn btn-ghost">Reset Demo</button>
+    </div>
+  </header>
+
+  <!-- Main Showcase Grid -->
+  <main class="showcase-container">
+    <!-- Left: Educational Explainer for Normal Users -->
+    <aside class="sidebar-guide">
+      <div class="guide-card">
+        <div class="guide-tag">HOW IT WORKS IN REAL LIFE</div>
+        <h2>See AI Overlays in Action</h2>
+        <p class="guide-desc">
+          Instead of constantly switching between apps, copying text, and retyping into AI tools, <strong>Origin-Flow</strong> hovers silently over your entire phone.
+        </p>
+
+        <div class="step-list">
+          <div class="step-item" id="step-1">
+            <div class="step-num">1</div>
+            <div class="step-info">
+              <h3>Select Any Text Anywhere</h3>
+              <p>Highlight text inside the simulated phone on the right (like an email or chat message).</p>
+              <button class="step-action-btn" id="simulate-select-btn">⚡ Try: Select Sample Text</button>
+            </div>
+          </div>
+
+          <div class="step-item" id="step-2">
+            <div class="step-num">2</div>
+            <div class="step-info">
+              <h3>Radial Intent-Wheel Pops Up</h3>
+              <p>A circular menu appears directly at your finger touch point with 4 instantaneous spatial actions.</p>
+              <button class="step-action-btn" id="simulate-wheel-btn">🎯 Open Wheel at Center</button>
+            </div>
+          </div>
+
+          <div class="step-item" id="step-3">
+            <div class="step-num">3</div>
+            <div class="step-info">
+              <h3>Multi-App Floating Workspace</h3>
+              <p>Results are automatically pinned to a draggable floating card that stays accessible across all apps.</p>
+              <button class="step-action-btn" id="simulate-workspace-btn">📂 Toggle Floating Stack</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="quick-scenarios">
+          <div class="scenario-label">PRE-SET TEST SCENARIOS:</div>
+          <div class="scenario-chips">
+            <button class="chip-btn" data-scenario="meeting">📅 Schedule a Meeting</button>
+            <button class="chip-btn" data-scenario="code">⚡ Solve Error Code</button>
+            <button class="chip-btn" data-scenario="summary">📄 Summarize Article</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center: Interactive Android Phone Simulator -->
+    <section class="device-section">
+      <div class="phone-frame">
+        <!-- Physical phone speaker & camera -->
+        <div class="phone-speaker"></div>
+        <div class="phone-camera"></div>
+
+        <!-- Android Status Bar -->
+        <div class="android-status-bar">
+          <span class="status-time" id="status-clock">09:41</span>
+          <div class="status-icons">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-4.97 0-9 4.03-9 9 0 2.12.74 4.07 1.97 5.61L4.35 18.25A9.97 9.97 0 0 1 2 12C2 6.48 6.48 2 12 2s10 4.48 10 10c0 2.32-.79 4.46-2.12 6.16l-.63-.63A8.96 8.96 0 0 0 21 12c0-4.97-4.03-9-9-9z"/><circle cx="12" cy="18" r="1.5"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4C7.31 4 3.07 5.9 0 8.98L12 21 24 8.98A16.88 16.88 0 0 0 12 4z"/></svg>
+            <svg width="16" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17 4h-3V2h-4v2H7v18h10V4z"/></svg>
+          </div>
+        </div>
+
+        <!-- Simulated App Container -->
+        <div class="phone-viewport" id="phone-viewport">
+          <!-- App Switcher Tabs -->
+          <div class="phone-app-tabs">
+            <button class="app-tab active" data-app="mail">
+              <span class="tab-dot dot-red"></span> Gmail
+            </button>
+            <button class="app-tab" data-app="slack">
+              <span class="tab-dot dot-purple"></span> Slack
+            </button>
+            <button class="app-tab" data-app="browser">
+              <span class="tab-dot dot-blue"></span> Chrome
+            </button>
+          </div>
+
+          <!-- App View 1: Gmail -->
+          <div class="app-content active" id="app-mail">
+            <div class="mail-header">
+              <div class="mail-sender-avatar">AK</div>
+              <div>
+                <div class="mail-sender-name">Alex Kumar <span class="mail-time">10:14 AM</span></div>
+                <div class="mail-subject">Urgent: Q4 Architecture Review & Launch</div>
+              </div>
+            </div>
+            <div class="mail-body selectable-content" id="mail-text">
+              <p>Hi Team,</p>
+              <p>We need to schedule the <mark class="demo-target-1">final Q4 Spatial Engine sprint review tomorrow at 3:30 PM with the DeepMind engineers</mark>.</p>
+              <p>Please double-check that our <mark class="demo-target-2">memory footprint stays under 48MB when rendering concurrent WindowManager overlays</mark>.</p>
+              <p>Best regards,<br>Alex</p>
+            </div>
+          </div>
+
+          <!-- App View 2: Slack -->
+          <div class="app-content" id="app-slack">
+            <div class="slack-channel">#dev-core-engine</div>
+            <div class="chat-message selectable-content">
+              <div class="chat-avatar">DK</div>
+              <div class="chat-text">
+                <div class="chat-user">Devon K. <span class="chat-timestamp">11:02 AM</span></div>
+                <p>Hey, check this traceback from our accessibility dispatch:</p>
+                <div class="code-bubble">
+                  <code>java.lang.IllegalStateException: ViewTreeLifecycleOwner not found from ComposeView</code>
+                </div>
+                <p>Can someone <mark class="demo-target-code">solve this issue and verify our custom OverlayLifecycleOwner attachment</mark>?</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- App View 3: Browser -->
+          <div class="app-content" id="app-browser">
+            <div class="browser-bar">originflow.dev/research</div>
+            <div class="article-body selectable-content">
+              <h2>Spatial Interfaces on Mobile</h2>
+              <p>Traditional mobile UI forces users through a disjointed loop of copy, app-switch, paste, and back. <mark class="demo-target-article">Spatial context engines replace this friction by projecting context-aware radial overlays directly at the user's focus coordinate</mark>, cutting multi-step tasks by 78%.</p>
+            </div>
+          </div>
+
+          <!-- OVERLAY 1: RADIAL INTENT-WHEEL (Jetpack Compose simulation) -->
+          <div class="intent-wheel-overlay" id="intent-wheel">
+            <!-- Center Dismiss Anchor -->
+            <button class="wheel-center-anchor" id="wheel-close-btn" title="Dismiss">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+
+            <!-- Radial Orbit Guideline -->
+            <div class="wheel-orbit-ring"></div>
+
+            <!-- Action 1: Summarize (Top: 270°) -->
+            <div class="wheel-node node-summarize" data-action="SUMMARIZE" style="--angle: 270deg; --radius: 95px;">
+              <button class="wheel-node-btn" title="Summarize text">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="11" y1="14" x2="3" y2="14"></line><line x1="11" y1="18" x2="3" y2="18"></line></svg>
+              </button>
+              <span class="node-label">Summarize</span>
+            </div>
+
+            <!-- Action 2: Auto-Schedule (Right: 0°) -->
+            <div class="wheel-node node-schedule" data-action="AUTO_SCHEDULE" style="--angle: 0deg; --radius: 95px;">
+              <button class="wheel-node-btn" title="Auto-Schedule agenda">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              </button>
+              <span class="node-label">Auto-Schedule</span>
+            </div>
+
+            <!-- Action 3: Solve / Extract (Bottom: 90°) -->
+            <div class="wheel-node node-solve" data-action="SOLVE_EXTRACT" style="--angle: 90deg; --radius: 95px;">
+              <button class="wheel-node-btn" title="Solve / Extract entities">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7z"></path><line x1="9" y1="21" x2="15" y2="21"></line></svg>
+              </button>
+              <span class="node-label">Solve/Extract</span>
+            </div>
+
+            <!-- Action 4: Save to Stack (Left: 180°) -->
+            <div class="wheel-node node-stack" data-action="SAVE_TO_STACK" style="--angle: 180deg; --radius: 95px;">
+              <button class="wheel-node-btn" title="Save to floating workspace stack">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+              </button>
+              <span class="node-label">Save to Stack</span>
+            </div>
+          </div>
+
+          <!-- OVERLAY 2: FLOATING WORKSPACE CARD (Jetpack Compose simulation) -->
+          <div class="floating-workspace-container" id="floating-workspace">
+            <!-- Collapsed Puck / Bubble View -->
+            <div class="workspace-bubble" id="workspace-bubble" title="Drag me anywhere or click to expand!">
+              <div class="bubble-icon-wrap">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                <span class="bubble-badge" id="bubble-count">0</span>
+              </div>
+            </div>
+
+            <!-- Expanded Workspace Card View -->
+            <div class="workspace-card" id="workspace-card">
+              <!-- Drag Handle & Controls -->
+              <div class="card-header" id="workspace-drag-header">
+                <div class="card-title-group">
+                  <div class="drag-handle-dots">
+                    <span></span><span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                  <span class="card-title">Origin Workspace</span>
+                </div>
+                <div class="card-actions">
+                  <button class="icon-btn" id="btn-minimize-workspace" title="Collapse into floating bubble">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 14 10 14 10 20"></polyline><polyline points="20 10 14 10 14 4"></polyline></svg>
+                  </button>
+                  <button class="icon-btn" id="btn-close-workspace" title="Dismiss overlay">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Stack of Processed Context Items -->
+              <div class="card-body" id="workspace-items-list">
+                <div class="empty-state" id="workspace-empty-state">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="9" x2="15" y2="9"></line><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="11" y2="17"></line></svg>
+                  <p>No items in stack yet.<br><span>Select text or test a scenario to trigger AI extraction!</span></p>
+                </div>
+              </div>
+
+              <!-- Footer Toolbar -->
+              <div class="card-footer">
+                <span class="footer-stats" id="workspace-stats-text">0 items buffered</span>
+                <button class="btn-text-danger" id="btn-clear-workspace">Clear All</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Navigation Bar (Android Gestures) -->
+          <div class="android-nav-bar">
+            <div class="nav-bar-indicator"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: Live System Inspector -->
+    <aside class="sidebar-inspector">
+      <div class="inspector-card">
+        <div class="inspector-header">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+          <span>Under the Hood: System Events</span>
+        </div>
+
+        <div class="telemetry-box">
+          <div class="telemetry-row">
+            <span class="label">Accessibility Hook:</span>
+            <span class="val green-badge" id="tele-access">ACTIVE (Listening)</span>
+          </div>
+          <div class="telemetry-row">
+            <span class="label">WindowManager Overlay:</span>
+            <span class="val cyan-badge" id="tele-overlay">TYPE_APPLICATION_OVERLAY</span>
+          </div>
+          <div class="telemetry-row">
+            <span class="label">Last Focus Target:</span>
+            <span class="val mono" id="tele-target">None</span>
+          </div>
+          <div class="telemetry-row">
+            <span class="label">Screen Coordinates:</span>
+            <span class="val mono" id="tele-coords">x: 0px, y: 0px</span>
+          </div>
+        </div>
+
+        <div class="event-stream-label">EVENT DISPATCH LOG:</div>
+        <div class="event-stream" id="event-log">
+          <div class="log-entry system">[SYSTEM] OriginFlowAccessibilityService attached.</div>
+          <div class="log-entry system">[WINDOW] Compose ViewTreeLifecycleOwner registered.</div>
+        </div>
+
+        <div class="inspector-tip">
+          💡 <strong>Pro-Tip:</strong> You can drag the floating workspace stack around the phone viewport just like a real Android overlay!
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Interactive toast notification -->
+  <div class="toast-notification" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
